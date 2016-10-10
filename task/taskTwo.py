@@ -3,29 +3,31 @@ from functools import reduce
 import re
 
 
+def average_in_list(lst):
+    """Нахождения среднее значения"""
+    if type(lst[0]) == int:
+        return reduce(lambda x, y: x + y, lst) / len(lst)
+    else:
+        return reduce(lambda x, y: x + y, [x for x in map(len, lst)]) / len(lst)
+
+
 class taskTwo(basicText):
     def __init__(self, text):
         super().__init__(text)
         self.amount_symbol = len(self.text) - self.text.count(' ')
         self.len_text = len(text)
 
-    def average_in_list(self, lst):
-        """Нахождения среднее значения"""
-        if type(lst[0]) == int:
-            return reduce(lambda x, y: x + y, lst) / len(lst)
-        else:
-            return reduce(lambda x, y: x + y, [x for x in map(len, lst)]) / len(lst)
-
     def solve_1(self):
         # amount = [0 if x.isalpha() else 1 for x in self.text if x.isalpha() or x.isdigit()]
         # amount_letters, amount_numeral = amount.count(0), amount.count(1)
+        '''Вариант сверху красивый, но не оптимальный, т.к при очень большем тексте
+        программа будет работать дольше, чам вариант ниже'''
         amount_letters, amount_numeral = 0, 0
         for symbol in self.text:
             if symbol.isdigit():
                 amount_numeral += 1
             if symbol.isalpha():
                 amount_letters += 1
-
         print(
             'Знаки: {}\nСимволов: {}; Процент: {:.2%}\nБукв: {}; Процент: {:.2%}\nЦифр: {}; Процент: {:.2%}%\n'.format(
                 len(self.text), self.amount_symbol, self.amount_symbol / self.len_text, amount_letters,
@@ -75,9 +77,9 @@ class taskTwo(basicText):
                 word.append(average_list[4])
 
             print('Строк: {}\nПредложений: {:.3}\nСлов: {:.3}\nСлогов: {:.3}\nБукв: {:.3}\n'.format(
-                self.average_in_list(line), self.average_in_list(offers), self.average_in_list(words),
-                self.average_in_list(syllable),
-                self.average_in_list(word)))
+                average_in_list(line), average_in_list(offers), average_in_list(words),
+                average_in_list(syllable),
+                average_in_list(word)))
 
     def solve_3(self):
         def __histogram(s=self.text.lower()):
@@ -91,27 +93,35 @@ class taskTwo(basicText):
                         d[c] += 1
             return d
 
-        def __the_frequency_of_letters(func):
+        def __output(func):
+            print('------Задания 3------\n')
+            print('Частота букв в алфавите: ')
+            __the_frequency_of_letters()
+            print('Наиболее используемые и не используемые символы алфавита: \n')
+            func()
+
+        def __the_frequency_of_letters():
             """Частота букв в алфавите"""
             hist = __histogram()
             letters = len([x for x in self.text if x.isalpha()])
-            print('Частота букв в алфавите: ')
             for key in sorted(hist):
                 print('{} => {:.2%}'.format(key, hist[key] / letters))
-            func()
+            print('\n')
 
-        @__the_frequency_of_letters
+        @__output
         def the_most_commonly_used_symbols():
             """Сортировка словаря"""
             hist = __histogram()
-            l = lambda x: x[1]
-            print(sorted(hist.items(), key=l, reverse=True))
+            sorted_values = sorted(hist.items(), key=lambda x: x[1], reverse=True)
+            for i in sorted_values:
+                print('{} => {}'.format(i[0], i[1]))
+            print('\n')
 
     def solve_4(self):
         numbers = [x for x in re.findall(r'[0-9]+', self.text)]
         number = [1 for x in self.text if x.isdigit()]
         float_numbers = [x for x in re.findall(r'[-+]?\d+\..?\d*', self.text)]
-        digit = self.average_in_list([len(x) for x in numbers])
+        digit = average_in_list([len(x) for x in numbers])
 
         print(
             'Число появление чисел, цифр: {}, {}\nЧастота чисел и цифр: {:.2%}, {:.2%}\nСреднее число: \n'
