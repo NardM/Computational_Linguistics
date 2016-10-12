@@ -16,8 +16,7 @@ And only at 8 o'clock he came home.'''
 tast.solve_1()
 tast.solve_2()
 tast.solve_3()
-tast.solve_4()
-'''
+tast.solve_4()'''
 
 tack = taskThree.taskThree(text)
 #tack.sort_alphabetically()

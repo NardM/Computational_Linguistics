@@ -1,4 +1,4 @@
-word = [1, 1, 1, 1, 2, 3, 3, 4, 5, 5, 6, 4, 3, 5, 6, 6]
+word = ['a','a','b']
 
 '''def s():
     for i in word:
@@ -7,37 +7,32 @@ word = [1, 1, 1, 1, 2, 3, 3, 4, 5, 5, 6, 4, 3, 5, 6, 6]
 '''
 
 
-def reader():
-    """A generator that fakes a read from a file, socket, etc."""
-    for i in range(4):
-        yield '<< %s' % i
-
-
-def reader_wrapper(g):
-    # Manually iterate over data produced by reader
-    for v in g:
-        yield v
-
-
-wrap = reader_wrapper(reader())
-for i in wrap:
-    # print(i)
-    pass
-
-
-def ss():
+def generator(word):
     for i in word:
         yield i
 
 
+a = 0
+
+
 def sss(g):
-    number = next(g)
-    if number == next(number)():
-        print("Yes")
-    else:
-        print("No")
+    number = g.__next__()
+    a = 1
+    while True:
+        try:
+            number2 = g.__next__()
+        except StopIteration:
+            if number==number2:
+                print(number2,a)
+            break
+        finally:
+            if number == number2:
+                a += 1
+            else:
+                print(number, a)
+                a = 1
+                number = number2
 
-s=sss(ss())
 
-for w in s:
-    print(w)
+g = generator(word)
+sss(g)

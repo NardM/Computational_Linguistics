@@ -11,6 +11,10 @@ def average_in_list(lst):
         return reduce(lambda x, y: x + y, [x for x in map(len, lst)]) / len(lst)
 
 
+def search_words(text):
+    return [x for x in re.findall(r'[A-z\']+', text)]
+
+
 class taskTwo(basicText):
     def __init__(self, text):
         super().__init__(text)
@@ -44,7 +48,7 @@ class taskTwo(basicText):
                     range(0, self.len_text, 79)]  # строка - это 79 символов
             offers = text.split('.') if '.' in text else '' + text.split('?') if '?' in text else '' + text.split(
                 '!') if '!' in text else ''
-            words = [x for x in re.findall(r'[A-z\']+', text)]
+            words = search_words(text)
             syllable = [x for x in re.findall(r'[aiouy]+e*|e(?!d$|ly).|[td]ed|le$', text)]
             word = [x for x in text if x.isalpha()]
 
