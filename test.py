@@ -1,38 +1,52 @@
-word = ['a','a','b']
-
-'''def s():
-    for i in word:
-        yield i
-        test()
-'''
+from basicText import basicText
+import task.taskTwo as search_words
+import re
+import copy
 
 
-def generator(word):
-    for i in word:
-        yield i
+class taskThree(basicText):
+    def __init__(self, text):
+        super().__init__(text)
+        self.words = search_words.search_words(text)
+
+    def sort_alphabetically(self):
+        word = list(set(copy.deepcopy(self.words)))
+        word.sort()
+        print('\n'.join(word))
+        print('\n')
+
+    def sort_list(self):
+        words = [x for x in sorted(copy.deepcopy(self.words), key=lambda a: len(a))]
+
+        def generator_words(words):
+            for word in words:
+                yield word
+
+        def count_word(g):
+            word = g.__next__()
+            count = 1
+            while True:
+                try:
+                    word_next = g.__next__()
+                except StopIteration:
+                    if word == word_next:
+                        print('Слово: {}, Количество: {}\n'.format(word_next, count))
+                    break
+                finally:
+                    if word == word_next:
+                        count += 1
+                    else:
+                        print('Слово: {}, Количество: {}\n'.format(word, count))
+                        count = 1
+                        word = word_next
 
 
-a = 0
+        g = generator_words(words)
+        count_word(g)
 
-
-def sss(g):
-    number = g.__next__()
-    a = 1
-    while True:
-        try:
-            number2 = g.__next__()
-        except StopIteration:
-            if number==number2:
-                print(number2,a)
-            break
-        finally:
-            if number == number2:
-                a += 1
-            else:
-                print(number, a)
-                a = 1
-                number = number2
-
-
-g = generator(word)
-sss(g)
+    def sort_alphabetically_reversed(self):
+        words = [x[::-1] for x in re.findall(r'[A-z\']+', self.text)]
+        word = list(set(words))
+        word.sort()
+        print('\n'.join(word))
+        print('\n')

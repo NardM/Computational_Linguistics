@@ -11,3 +11,4 @@ class basicText:
         self.n=input()
         print('1234')
         self.m=input()'''
+

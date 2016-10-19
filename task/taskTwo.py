@@ -2,7 +2,6 @@ from basicText import basicText
 from functools import reduce
 import re
 
-
 def average_in_list(lst):
     """Нахождения среднее значения"""
     if type(lst[0]) == int:
@@ -10,9 +9,16 @@ def average_in_list(lst):
     else:
         return reduce(lambda x, y: x + y, [x for x in map(len, lst)]) / len(lst)
 
-
 def search_words(text):
     return [x for x in re.findall(r'[A-z\']+', text)]
+
+
+def search_letters(text):
+    return [x for x in text if x.isalpha()]
+
+
+def search_number(text):
+    return [1 for x in text if x.isdigit()]
 
 
 class taskTwo(basicText):
@@ -22,16 +28,8 @@ class taskTwo(basicText):
         self.len_text = len(text)
 
     def solve_1(self):
-        # amount = [0 if x.isalpha() else 1 for x in self.text if x.isalpha() or x.isdigit()]
-        # amount_letters, amount_numeral = amount.count(0), amount.count(1)
-        '''Вариант сверху красивый, но не оптимальный, т.к при очень большем тексте
-        программа будет работать дольше, чам вариант ниже'''
-        amount_letters, amount_numeral = 0, 0
-        for symbol in self.text:
-            if symbol.isdigit():
-                amount_numeral += 1
-            if symbol.isalpha():
-                amount_letters += 1
+        amount_letters, amount_numeral = len(search_letters(self.text)), len(search_number(self.text))
+        print('------Задания 1------\n')
         print(
             'Знаки: {}\nСимволов: {}; Процент: {:.2%}\nБукв: {}; Процент: {:.2%}\nЦифр: {}; Процент: {:.2%}%\n'.format(
                 len(self.text), self.amount_symbol, self.amount_symbol / self.len_text, amount_letters,
@@ -40,7 +38,6 @@ class taskTwo(basicText):
 
     def solve_2(self):
         paragraph = self.text.split('\n')
-
         def __search_values(text=self.text):
             """Нахождения значений в тексте"""
             len_text = len(text)
@@ -50,7 +47,7 @@ class taskTwo(basicText):
                 '!') if '!' in text else ''
             words = search_words(text)
             syllable = [x for x in re.findall(r'[aiouy]+e*|e(?!d$|ly).|[td]ed|le$', text)]
-            word = [x for x in text if x.isalpha()]
+            word = search_letters(text)
 
             if text == self.text:
                 return 'Абзацов: {0}\nСтроков: {1}\nПредложений: {2}\nСлов: {3}\nСлогов: {4}\n'.format(len(paragraph),
@@ -63,6 +60,7 @@ class taskTwo(basicText):
 
         def __output(func):
             """Вывод на консоль"""
+            print('------Задания 2------\n')
             print('В полном тексте')
             print(__search_values(self.text))
             print('Среднее число значений в абзаце: ')
@@ -86,7 +84,8 @@ class taskTwo(basicText):
                 average_in_list(word)))
 
     def solve_3(self):
-        def __histogram(s=self.text.lower()):
+        # def __histogram(s=self.text.lower()):
+        def __histogram(s=search_words(self.text.lower())):
             """Добавление текст в словарь из букв"""
             d = dict()
             for c in s:
@@ -107,7 +106,7 @@ class taskTwo(basicText):
         def __the_frequency_of_letters():
             """Частота букв в алфавите"""
             hist = __histogram()
-            letters = len([x for x in self.text if x.isalpha()])
+            letters = len(search_letters(self.text))
             for key in sorted(hist):
                 print('{} => {:.2%}'.format(key, hist[key] / letters))
             print('\n')
@@ -123,10 +122,11 @@ class taskTwo(basicText):
 
     def solve_4(self):
         numbers = [x for x in re.findall(r'[0-9]+', self.text)]
-        number = [1 for x in self.text if x.isdigit()]
+        number = search_number(self.text)
         float_numbers = [x for x in re.findall(r'[-+]?\d+\..?\d*', self.text)]
         digit = average_in_list([len(x) for x in numbers])
 
+        print('------Задания 4------\n')
         print(
             'Число появление чисел, цифр: {}, {}\nЧастота чисел и цифр: {:.2%}, {:.2%}\nСреднее число: \n'
             '   Разрядности: {}\nТип чисел: \n   Вещественные: {}\n   Целые: {}\n'.format(
