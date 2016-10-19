@@ -13,12 +13,12 @@ He ate his dinner, rested a little, and went back to the farm. Vadim Petrovich h
 to write some letters, and to do some other work. At 5 o'clock he had an important meeting.
 And only at 8 o'clock he came home.'''
 tast = taskTwo.taskTwo(text)
-tast.solve_1()
-tast.solve_2()
-tast.solve_3()
-tast.solve_4()
+#tast.solve_1()
+#tast.solve_2()
+#tast.solve_3()
+#tast.solve_4()
 
-#tack = taskThree.taskThree(text)
-#tack.sort_alphabetically()
+tack = taskThree.taskThree(text)
+tack.sort_alphabetically()
 #tack.sort_list()
-#tack.sort_alphabetically_reversed()
+tack.sort_alphabetically_reversed()

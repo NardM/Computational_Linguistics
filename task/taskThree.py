@@ -4,17 +4,17 @@ from task.taskTwo import taskTwo
 import re
 import copy
 
+
 class taskThree(taskTwo):
     def __init__(self, text):
-        super().__init__(self)
+        super().__init__(text)
         self.words = search_words.search_words(text)
 
-
     def sort_alphabetically(self):
-        #word = list(set(copy.deepcopy(self.words)))
-        #word.sort()
+        # word = list(set(copy.deepcopy(self.words)))
+        # word.sort()
         self.solve_3()
-        #print('\n'.join(word))
+        # print('\n'.join(word))
         print('\n')
 
     def sort_list(self):
@@ -34,23 +34,23 @@ class taskThree(taskTwo):
                     word_next = g.__next__()
                 except StopIteration:
                     if word == word_next:
-                        dict_words.update({word_next,count})
-                        #print('Слово: {}, Количество: {}\n'.format(word_next, count))
+                        dict_words.update({word_next, count})
+                        # print('Слово: {}, Количество: {}\n'.format(word_next, count))
                     break
                 finally:
                     if word == word_next:
                         count += 1
                     else:
                         dict_words.update({word, count})
-                        #print('Слово: {}, Количество: {}\n'.format(word, count))
+                        # print('Слово: {}, Количество: {}\n'.format(word, count))
                         count = 1
                         word = word_next
 
             return dict_words
 
         g = generator_words(words)
-        dict_words =count_word(g)
-
+        dict_words = count_word(g)
+        print(dict_words)
 
     def sort_alphabetically_reversed(self):
         words = [x[::-1] for x in re.findall(r'[A-z\']+', self.text)]

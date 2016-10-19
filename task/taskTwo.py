@@ -2,12 +2,14 @@ from basicText import basicText
 from functools import reduce
 import re
 
+
 def average_in_list(lst):
     """Нахождения среднее значения"""
     if type(lst[0]) == int:
         return reduce(lambda x, y: x + y, lst) / len(lst)
     else:
         return reduce(lambda x, y: x + y, [x for x in map(len, lst)]) / len(lst)
+
 
 def search_words(text):
     return [x for x in re.findall(r'[A-z\']+', text)]
@@ -38,6 +40,7 @@ class taskTwo(basicText):
 
     def solve_2(self):
         paragraph = self.text.split('\n')
+
         def __search_values(text=self.text):
             """Нахождения значений в тексте"""
             len_text = len(text)
@@ -96,29 +99,29 @@ class taskTwo(basicText):
                         d[c] += 1
             return d
 
-        def __output(func):
-            print('------Задания 3------\n')
-            print('Частота букв в алфавите: ')
-            __the_frequency_of_letters()
-            print('Наиболее используемые и не используемые символы алфавита: \n')
-            func()
-
         def __the_frequency_of_letters():
             """Частота букв в алфавите"""
             hist = __histogram()
             letters = len(search_letters(self.text))
+            return_list = []
             for key in sorted(hist):
-                print('{} => {:.2%}'.format(key, hist[key] / letters))
-            print('\n')
+                return_list.append('{} => {:.2%}'.format(key, hist[key] / letters))
+            return return_list
 
-        @__output
         def the_most_commonly_used_symbols():
             """Сортировка словаря"""
             hist = __histogram()
             sorted_values = sorted(hist.items(), key=lambda x: x[1], reverse=True)
+            return_list = []
             for i in sorted_values:
-                print('{} => {}'.format(i[0], i[1]))
-            print('\n')
+                return_list.append('{} => {}'.format(i[0], i[1]))
+            return return_list
+
+        print('------Задания 3------\n')
+        print('Частота букв в алфавите: ')
+        print('\n'.join(__the_frequency_of_letters()))
+        print('Наиболее используемые и не используемые символы алфавита: \n')
+        print('\n'.join(the_most_commonly_used_symbols()))
 
     def solve_4(self):
         numbers = [x for x in re.findall(r'[0-9]+', self.text)]
