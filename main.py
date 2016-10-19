@@ -17,8 +17,13 @@ tast = taskTwo.taskTwo(text)
 #tast.solve_2()
 #tast.solve_3()
 #tast.solve_4()
-
 tack = taskThree.taskThree(text)
-tack.sort_alphabetically()
+#tack.sort_alphabetically()
+
 #tack.sort_list()
-tack.sort_alphabetically_reversed()
+
+#tack.sort_alphabetically_reversed()
+#tack.words_all()
+
+tack.compatibility_letters()
+tack.appearance_of_the_letters_to_the_position()
